@@ -46,6 +46,8 @@ def eventplus():
     m = int(input("Enter the month: "))
     d = int(input("Enter the day: "))
     ename = input("What is this event for?: ")
+    # Adds leading zeroes (if necessary) into the input day/month/year.
+    # For example, 2 -> 02; 24 -> 24; etc.
     date = "{:4d}-{:2d}-{:2d}".format(y,m,d)
     cursor.execute("INSERT INTO {} (event, day) VALUES ({},{})".format(ulogin, ename, date))
     con.commit()
