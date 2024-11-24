@@ -2,7 +2,7 @@ import mysql.connector as msq
 from datetime import date
 
 # Connection object, and cursor object.
-con = msq.connect(host="localhost", user="root", passwd="jojomeethi2312", database="calendar")
+con = msq.connect(host="localhost", user="root", passwd="jojomeethi2312")
 cursor = con.cursor()
 
 # Keeping in check whether a user is/isn't logged in.
@@ -81,7 +81,7 @@ def eventplus():
 
 def eventlist():
     # Show all scheduled events for the user
-    cursor.execute("SELECT * from {} WHERE day>\'{}\'".format(currentuser, date.today()))
+    cursor.execute("SELECT * from {} WHERE day>\'{}\' ORDER BY day".format(currentuser, date.today()))
     events = cursor.fetchall()
     print("All events:\n")
     for i in events:
@@ -109,7 +109,25 @@ def distance():
     print("{} events on that day: {}\n\n".format(len(foundevent), foundevent))
     main()
 
+def dbinit():
+    exist = False
+    cursor.execute("show databases")
+    for i in cursor.fetchall():
+        if i[0]=='calendar':
+            exist = True
+            break
+        else: continue
+    if not exist:
+        cursor.execute("create database calendar")
+    cursor.execute("use calendar")
+    cursor.execute("show tables")
+    if len(cursor.fetchall())==0:
+        cursor.execute("create table users(name varchar(30) NOT NULL, userid varchar(64) PRIMARY KEY, userpass varchar(64) UNIQUE NOT NULL)")
+        con.commit()
+        
+
 def initialise():
+    dbinit()
     # Function to specify new user creation or log in preference.
     print("Good day! Welcome to your calendar. Would you like to `sign up` or `sign in`?")
     sisu = input("\'signup\' to sign up\t\'signin\' to sign in.\n")
