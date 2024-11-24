@@ -173,3 +173,6 @@ def main():
 
 if __name__ == "__main__":
     initialise()
+    
+    # Close the connection after user is done.
+    con.close()
