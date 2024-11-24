@@ -124,7 +124,6 @@ def dbinit():
     if len(cursor.fetchall())==0:
         cursor.execute("create table users(name varchar(30) NOT NULL, userid varchar(64) PRIMARY KEY, userpass varchar(64) UNIQUE NOT NULL)")
         con.commit()
-        
 
 def initialise():
     dbinit()
@@ -171,7 +170,6 @@ def main():
                 print("User input not valid. Please try again\n")
         else:
             print('\n\n')
-
 
 if __name__ == "__main__":
     initialise()
